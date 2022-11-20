@@ -17,6 +17,8 @@ class _WidgetTreeState extends State<WidgetTree> {
     return StreamBuilder(
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
+        // TODO: store if user logged in once
+
         if (snapshot.hasData) {
           return HomePage();
         } else {
