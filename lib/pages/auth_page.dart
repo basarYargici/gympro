@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_pro/pages/home_page.dart';
 
-import '../auth.dart';
+import '../auth_helper.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -19,7 +20,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
+      await AuthHelper().signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -30,7 +31,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      await AuthHelper().createUserWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -61,7 +62,12 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _loginButton() {
     return ElevatedButton(
-      onPressed: signInWithEmailAndPassword,
+      onPressed: () {
+        signInWithEmailAndPassword().then((value) => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            ));
+      },
       child: const Text('Login'),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_pro/auth.dart';
+import 'package:gym_pro/auth_helper.dart';
 import 'package:gym_pro/constants.dart';
 import 'package:gym_pro/widget_tree.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
