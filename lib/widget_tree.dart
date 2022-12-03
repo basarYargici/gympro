@@ -60,19 +60,19 @@ class OnboardingShownWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Stream<User?> isSignedUp;
-
+  // todo: kullanıcı kontrolü yanlış olsa da homepage e gidiyor test edilmeli. Şu anlık direkt home a gönderiyorum.
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: isSignedUp,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final bool isLoggedIn = snapshot.hasData;
-          if (isLoggedIn) {
-            return HomePage();
-          } else {
-            return const AuthPage();
-          }
+          // final bool isLoggedIn = snapshot.hasData;
+          // if (isLoggedIn) {
+          return HomePage();
+          // } else {
+          // return const AuthPage();
+          // }
         }
         return const CircularProgressIndicator();
       },

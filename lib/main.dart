@@ -5,6 +5,7 @@ import 'package:gym_pro/auth_helper.dart';
 import 'package:gym_pro/constants.dart';
 import 'package:gym_pro/widget_tree.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,11 +102,7 @@ class BottomNavBar extends StatelessWidget {
     controller = PersistentTabController(initialIndex: 0);
 
     List<Widget> _buildScreens() {
-      return [
-        const MainScreen(),
-        const SettingsScreen(),
-        const SettingsScreen()
-      ];
+      return [const MainScreen(), QrScreen(), const SettingsScreen()];
     }
 
     List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -185,6 +182,23 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(child: Text('SettingsScreen')),
+    );
+  }
+}
+
+class QrScreen extends StatelessWidget {
+  const QrScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: QrImage(
+          data: "1234567890",
+          version: QrVersions.auto,
+          size: 200.0,
+        ),
+      ),
     );
   }
 }
