@@ -78,9 +78,9 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  void showToast(String message) {
+  void showToast(String? message) {
     Fluttertoast.showToast(
-      msg: message,
+      msg: message ?? "Something went wrong",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
       textColor: Colors.white,
@@ -117,10 +117,10 @@ class _SigninPageState extends State<SigninPage> {
           if (value == true) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           } else {
-            showToast(errorMessage.toString());
+            showToast(errorMessage);
           }
         });
       },
@@ -140,10 +140,10 @@ class _SigninPageState extends State<SigninPage> {
             showToast("You have successfully signed up!");
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           } else {
-            showToast(errorMessage.toString());
+            showToast(errorMessage);
           }
         });
       },

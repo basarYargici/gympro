@@ -38,9 +38,9 @@ class _WidgetTreeState extends State<WidgetTree> {
     );
   }
 
-  void showToast(String message) {
+  void showToast(String? message) {
     Fluttertoast.showToast(
-      msg: message,
+      msg: message ?? "Something went wrong",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
       textColor: Colors.white,
@@ -86,8 +86,9 @@ class OnboardingShownWidget extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: isSignedin,
         builder: (context, snapshot) {
+          // todo önce signin ekranı gelip gidiyor stream sonucu. connection state e göre bunu düzel
           if (snapshot.hasData) {
-            return HomePage();
+            return const HomePage();
           } else {
             return const SigninPage();
           }

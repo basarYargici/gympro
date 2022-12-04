@@ -1,17 +1,58 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_pro/pages/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../auth_helper.dart';
-import '../main.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final User? user = AuthHelper().currentUser;
+  String? errorMessage;
 
-  Future<void> signOut() async {
-    await AuthHelper().signOut();
+  Future<bool> signOut() async {
+    try {
+      showCircularProgressIndicator();
+      throw FirebaseAuthException(code: '102');
+      // await AuthHelper().signOut();
+
+      // return true;
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message.toString();
+      });
+      return false;
+    } finally {
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<dynamic> showCircularProgressIndicator() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void showToast(String? message) {
+    Fluttertoast.showToast(
+      msg: message ?? "Something went wrong",
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   Widget _title() {
@@ -24,7 +65,20 @@ class HomePage extends StatelessWidget {
 
   Widget _signOutButton() {
     return ElevatedButton(
-      onPressed: signOut,
+      onPressed: () {
+        signOut().then(
+          (value) {
+            if (value == true) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SigninPage()),
+              );
+            } else {
+              showToast(errorMessage);
+            }
+          },
+        );
+      },
       child: const Text('Sign Out'),
     );
   }
@@ -63,7 +117,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ));
-        // bottomNavigationBar: const BottomNavBar());
+    // bottomNavigationBar: const BottomNavBar());
   }
 }
 
