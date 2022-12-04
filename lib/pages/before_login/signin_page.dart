@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gym_pro/pages/home_page.dart';
 import 'package:lottie/lottie.dart';
 
-import '../auth_helper.dart';
+import '../../auth_helper.dart';
+import '../after_login/home_page.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key});

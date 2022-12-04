@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart' show Color;
-
 class OnboardModel {
   String? img;
   String? text;

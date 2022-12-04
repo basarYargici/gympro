@@ -1,10 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_pro/constants.dart';
-import 'package:gym_pro/pages/signin_page.dart';
+import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:gym_pro/shared_pref_helper.dart';
 
-import '../models/onboard_model.dart';
+import '../../models/onboard_model.dart';
 
 class OnBoardPage extends StatefulWidget {
   const OnBoardPage({super.key});

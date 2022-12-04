@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gym_pro/pages/signin_page.dart';
+import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../auth_helper.dart';
-import '../main.dart';
+import '../../auth_helper.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -127,15 +127,4 @@ class SalesData {
   SalesData(this.year, this.sales);
   final String year;
   final double sales;
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SizedBox(),
-        bottomNavigationBar: BottomNavBar());
-  }
 }
