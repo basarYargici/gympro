@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_pro/auth_helper.dart';
 import 'package:gym_pro/constants.dart';
+import 'package:gym_pro/pages/home_page.dart';
 import 'package:gym_pro/widget_tree.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -21,8 +22,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const WidgetTree(),
     );
@@ -102,7 +108,7 @@ class BottomNavBar extends StatelessWidget {
     controller = PersistentTabController(initialIndex: 0);
 
     List<Widget> _buildScreens() {
-      return [const MainScreen(), QrScreen(), const SettingsScreen()];
+      return [HomePage(), QrScreen(), const SettingsScreen()];
     }
 
     List<PersistentBottomNavBarItem> _navBarsItems() {

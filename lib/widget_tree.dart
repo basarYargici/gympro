@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_pro/pages/auth_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_pro/pages/signin_page.dart';
 import 'package:gym_pro/pages/home_page.dart';
 import 'package:gym_pro/pages/onboard_page.dart';
 import 'package:gym_pro/shared_pref_helper.dart';
@@ -17,13 +18,34 @@ class WidgetTree extends StatefulWidget {
 class _WidgetTreeState extends State<WidgetTree> {
   var sharedPrefHelper = SharedPrefHelper();
   late Future<bool> isOnboardingShown;
-  late Stream<User?> isSignedUp;
+  late Stream<User?> isSignedin;
 
   @override
   void initState() {
     super.initState();
     isOnboardingShown = SharedPrefHelper().isOnboardingShown();
-    isSignedUp = AuthHelper().authStateChanges;
+    isSignedin = AuthHelper().authStateChanges;
+  }
+
+  Future<dynamic> showCircularProgressIndicator() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   @override
@@ -31,15 +53,13 @@ class _WidgetTreeState extends State<WidgetTree> {
     return FutureBuilder(
         future: isOnboardingShown,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              final isShown = snapshot.data!;
-              return setPageByOnboardingState(isShown);
-            } else {
-              return const CircularProgressIndicator();
-            }
+          if (snapshot.hasData) {
+            final isShown = snapshot.data!;
+            return setPageByOnboardingState(isShown);
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         });
   }
@@ -48,7 +68,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     if (!isShown) {
       return const OnBoardPage();
     } else {
-      return OnboardingShownWidget(isSignedUp: isSignedUp);
+      return OnboardingShownWidget(isSignedin: isSignedin);
     }
   }
 }
@@ -56,26 +76,23 @@ class _WidgetTreeState extends State<WidgetTree> {
 class OnboardingShownWidget extends StatelessWidget {
   const OnboardingShownWidget({
     Key? key,
-    required this.isSignedUp,
+    required this.isSignedin,
   }) : super(key: key);
 
-  final Stream<User?> isSignedUp;
-  // todo: kullanıcı kontrolü yanlış olsa da homepage e gidiyor test edilmeli. Şu anlık direkt home a gönderiyorum.
+  final Stream<User?> isSignedin;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: isSignedUp,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          // final bool isLoggedIn = snapshot.hasData;
-          // if (isLoggedIn) {
-          return HomePage();
-          // } else {
-          // return const AuthPage();
-          // }
-        }
-        return const CircularProgressIndicator();
-      },
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: isSignedin,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HomePage();
+          } else {
+            return const SigninPage();
+          }
+        },
+      ),
     );
   }
 }

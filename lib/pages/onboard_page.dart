@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_pro/constants.dart';
-import 'package:gym_pro/pages/auth_page.dart';
+import 'package:gym_pro/pages/signin_page.dart';
 import 'package:gym_pro/shared_pref_helper.dart';
 
 import '../models/onboard_model.dart';
@@ -38,7 +38,6 @@ class _OnBoardPageState extends State<OnBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kwhite,
         elevation: 0,
         actions: [
           TextButton(
@@ -46,7 +45,7 @@ class _OnBoardPageState extends State<OnBoardPage> {
                 sharedPrefHelper.setOnboardingShown();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const AuthPage()),
+                  MaterialPageRoute(builder: (context) => const SigninPage()),
                 );
               },
               child: const Text("Skip"))

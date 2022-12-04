@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../auth_helper.dart';
 import '../main.dart';
@@ -39,9 +40,35 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [_userUid(), _signOutButton()],
+            children: [
+              SfCartesianChart(
+                // Initialize category axis
+                primaryXAxis: CategoryAxis(),
+                series: <LineSeries<SalesData, String>>[
+                  LineSeries<SalesData, String>(
+                      // Bind data source
+                      dataSource: <SalesData>[
+                        SalesData('Jan', 35),
+                        SalesData('Feb', 28),
+                        SalesData('Mar', 34),
+                        SalesData('Apr', 32),
+                        SalesData('May', 40)
+                      ],
+                      xValueMapper: (SalesData sales, _) => sales.year,
+                      yValueMapper: (SalesData sales, _) => sales.sales)
+                ],
+              ),
+              _userUid(),
+              _signOutButton()
+            ],
           ),
-        ),
-        bottomNavigationBar: const BottomNavBar());
+        ));
+        // bottomNavigationBar: const BottomNavBar());
   }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final String year;
+  final double sales;
 }
