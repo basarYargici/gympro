@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gym_pro/pages/signin_page.dart';
 import 'package:gym_pro/pages/home_page.dart';
+import 'package:gym_pro/pages/signin_page.dart';
 import 'package:gym_pro/pages/onboard_page.dart';
 import 'package:gym_pro/shared_pref_helper.dart';
 
 import 'auth_helper.dart';
+import 'main.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
@@ -88,7 +89,7 @@ class OnboardingShownWidget extends StatelessWidget {
         builder: (context, snapshot) {
           // todo önce signin ekranı gelip gidiyor stream sonucu. connection state e göre bunu düzel
           if (snapshot.hasData) {
-            return const HomePage();
+            return const BottomNavBar();
           } else {
             return const SigninPage();
           }
