@@ -20,10 +20,9 @@ class _HomePageState extends State<HomePage> {
   Future<bool> signOut() async {
     try {
       showCircularProgressIndicator();
-      throw FirebaseAuthException(code: '102');
-      // await AuthHelper().signOut();
+      await AuthHelper().signOut();
 
-      // return true;
+      return true;
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message.toString();
