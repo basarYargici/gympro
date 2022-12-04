@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthHelper {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseStore = FirebaseFirestore.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
 
@@ -25,6 +27,15 @@ class AuthHelper {
       email: email,
       password: password,
     );
+  }
+
+  Future<void> createUserDetailRecord({
+    required String userId,
+  }) async {
+    final docUser =
+        _firebaseStore.collection('userDetail').doc(currentUser?.tenantId);
+    final json = {'userId': userId};
+    await docUser.set(json);
   }
 
   Future<void> signOut() async {

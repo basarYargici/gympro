@@ -32,8 +32,8 @@ class _SigninPageState extends State<SigninPage> {
       showCircularProgressIndicator();
 
       await AuthHelper().signInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
+            email: _controllerEmail.text,
+            password: _controllerPassword.text,
       );
 
       return true;
@@ -55,6 +55,7 @@ class _SigninPageState extends State<SigninPage> {
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+      await AuthHelper().createUserDetailRecord(userId: "1");
 
       return true;
     } on FirebaseAuthException catch (e) {

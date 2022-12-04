@@ -14,17 +14,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        /* dark theme settings */
-      ),
-      themeMode: ThemeMode.dark,
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: const WidgetTree(),
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          /* dark theme settings */
+        ),
+        themeMode: ThemeMode.dark,
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        home: const WidgetTree(),
     );
   }
 }

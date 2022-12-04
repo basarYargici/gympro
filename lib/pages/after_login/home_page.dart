@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../auth_helper.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -56,10 +55,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _title() {
-    return const Text('Home Page');
-  }
-
   Widget _userUid() {
     return Text(user?.email ?? 'User email');
   }
@@ -87,15 +82,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: _title()),
       body: Container(
         height: double.infinity,
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 40),
             SfCartesianChart(
               // Initialize category axis
               primaryXAxis: CategoryAxis(),
@@ -118,7 +112,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // bottomNavigationBar: const BottomNavBar()
     );
   }
 }
