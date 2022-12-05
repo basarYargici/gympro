@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../auth_helper.dart';
+import '../../models/body_model.dart';
+import '../../models/user_model.dart';
 import '../after_login/home_page.dart';
 
 class SigninPage extends StatefulWidget {
@@ -19,6 +21,13 @@ class _SigninPageState extends State<SigninPage> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  late final AuthHelper authHelper;
+
+  @override
+  void initState() {
+    authHelper = AuthHelper();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -31,9 +40,9 @@ class _SigninPageState extends State<SigninPage> {
     try {
       showCircularProgressIndicator();
 
-      await AuthHelper().signInWithEmailAndPassword(
-            email: _controllerEmail.text,
-            password: _controllerPassword.text,
+      await authHelper.signInWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
       );
 
       return true;
@@ -51,11 +60,13 @@ class _SigninPageState extends State<SigninPage> {
     try {
       showCircularProgressIndicator();
 
-      await AuthHelper().createUserWithEmailAndPassword(
+      await authHelper.createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
-      await AuthHelper().createUserDetailRecord(userId: "1");
+      await authHelper.createUserDetailRecord(
+        user: MyUser(id: authHelper.currentUser!.uid, bodyModel: bodyModelList),
+      );
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -138,7 +149,6 @@ class _SigninPageState extends State<SigninPage> {
       onPressed: () {
         signUpUserWithEmailAndPassword().then((value) {
           if (value == true) {
-            showToast("You have successfully signed up!");
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),

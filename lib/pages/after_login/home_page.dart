@@ -5,6 +5,7 @@ import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../auth_helper.dart';
+import '../../models/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -114,10 +115,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
 }
