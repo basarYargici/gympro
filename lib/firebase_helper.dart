@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/user_model.dart';
 
-class AuthHelper {
+class FirebaseHelper {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseStore = FirebaseFirestore.instance;
 

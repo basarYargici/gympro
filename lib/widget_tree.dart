@@ -6,7 +6,7 @@ import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:gym_pro/pages/before_login/onboard_page.dart';
 import 'package:gym_pro/shared_pref_helper.dart';
 
-import 'auth_helper.dart';
+import 'firebase_helper.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
@@ -24,7 +24,7 @@ class _WidgetTreeState extends State<WidgetTree> {
   void initState() {
     super.initState();
     isOnboardingShown = SharedPrefHelper().isOnboardingShown();
-    isSignedin = AuthHelper().authStateChanges;
+    isSignedin = FirebaseHelper().authStateChanges;
   }
 
   Future<dynamic> showCircularProgressIndicator() {

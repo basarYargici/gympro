@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../auth_helper.dart';
+import '../../firebase_helper.dart';
 import '../../models/user_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,13 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final User? user = AuthHelper().currentUser;
+  final User? user = FirebaseHelper().currentUser;
   String? errorMessage;
 
   Future<bool> signOut() async {
     try {
       showCircularProgressIndicator();
-      await AuthHelper().signOut();
+      await FirebaseHelper().signOut();
 
       return true;
     } on FirebaseAuthException catch (e) {

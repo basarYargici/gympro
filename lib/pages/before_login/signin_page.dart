@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../auth_helper.dart';
+import '../../firebase_helper.dart';
 import '../../models/body_model.dart';
 import '../../models/user_model.dart';
 import '../after_login/home_page.dart';
@@ -21,11 +21,11 @@ class _SigninPageState extends State<SigninPage> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  late final AuthHelper authHelper;
+  late final FirebaseHelper firebaseHelper;
 
   @override
   void initState() {
-    authHelper = AuthHelper();
+    firebaseHelper = FirebaseHelper();
     super.initState();
   }
 
@@ -40,7 +40,7 @@ class _SigninPageState extends State<SigninPage> {
     try {
       showCircularProgressIndicator();
 
-      await authHelper.signInWithEmailAndPassword(
+      await firebaseHelper.signInWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
@@ -60,12 +60,12 @@ class _SigninPageState extends State<SigninPage> {
     try {
       showCircularProgressIndicator();
 
-      await authHelper.createUserWithEmailAndPassword(
+      await firebaseHelper.createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
-      await authHelper.createUserDetailRecord(
-        user: MyUser(id: authHelper.currentUser!.uid, bodyModel: bodyModelList),
+      await firebaseHelper.createUserDetailRecord(
+        user: MyUser(id: firebaseHelper.currentUser!.uid, bodyModel: bodyModelList),
       );
 
       return true;
