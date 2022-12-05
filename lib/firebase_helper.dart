@@ -31,6 +31,10 @@ class FirebaseHelper {
     );
   }
 
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+  }
+
   Future<void> createUserDetailRecord({
     required MyUser user,
   }) async {
@@ -38,7 +42,14 @@ class FirebaseHelper {
     await docUser.set(user.toMap());
   }
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+  Stream<List<MyUser>> getUserDetail() {
+    return _firebaseStore
+        .collection('userDetail')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map(
+              (doc) => MyUser.fromMap(doc.data()),
+            )
+            .toList());
   }
 }

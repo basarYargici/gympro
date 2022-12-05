@@ -7,7 +7,7 @@ import 'body_model.dart';
 class MyUser {
   final String? id;
   final String? mail;
-  final List<BodyModel?>? bodyModel;
+  final List<BodyModel>? bodyModel;
   MyUser({
     this.id,
     this.mail,
@@ -30,7 +30,7 @@ class MyUser {
     return <String, dynamic>{
       'id': id,
       'mail': mail,
-      'bodyModel': bodyModel?.map((x) => x?.toMap()).toList(),
+      'bodyModel': bodyModel?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -40,7 +40,7 @@ class MyUser {
       mail: map['mail'] != null ? map['mail'] as String : null,
       bodyModel: map['bodyModel'] != null
           ? List<BodyModel>.from(
-              (map['bodyModel'] as List<int>).map<BodyModel?>(
+              (map['bodyModel']).map<BodyModel?>(
                 (x) => BodyModel.fromMap(x as Map<String, dynamic>),
               ),
             )

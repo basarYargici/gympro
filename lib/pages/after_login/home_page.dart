@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_pro/models/body_model.dart';
 import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -18,10 +19,18 @@ class _HomePageState extends State<HomePage> {
   final User? user = FirebaseHelper().currentUser;
   String? errorMessage;
 
+  late final FirebaseHelper firebaseHelper;
+
+  @override
+  void initState() {
+    firebaseHelper = FirebaseHelper();
+    super.initState();
+  }
+
   Future<bool> signOut() async {
     try {
       showCircularProgressIndicator();
-      await FirebaseHelper().signOut();
+      await firebaseHelper.signOut();
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -109,7 +118,27 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             _userUid(),
-            _signOutButton()
+            _signOutButton(),
+            // todo veri gösterimini düzelt
+            StreamBuilder(
+                stream: firebaseHelper.getUserDetail(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SfCartesianChart(
+                      // Initialize category axis
+                      primaryXAxis: CategoryAxis(),
+                      series: <LineSeries<BodyModel, String>>[
+                        LineSeries<BodyModel, String>(
+                            // Bind data source
+                            dataSource: snapshot.data!.first.bodyModel!,
+                            xValueMapper: (BodyModel sales, _) => sales.weight,
+                            yValueMapper: (BodyModel sales, _) => 
+                                double.parse(sales.height.toString()))
+                      ],
+                    );
+                  }
+                  return const Text("nanan");
+                })
           ],
         ),
       ),
