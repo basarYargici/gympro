@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           /* dark theme settings */
         ),
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.light,
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
