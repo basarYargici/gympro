@@ -1,12 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 import 'package:gym_pro/models/body_model.dart';
 import 'package:gym_pro/models/user_model.dart';
 import 'package:gym_pro/pages/before_login/signin_page.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../firebase_helper.dart';
+import '../../models/grid_item_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +23,10 @@ class _HomePageState extends State<HomePage> {
   late final User? user;
   late final FirebaseHelper firebaseHelper;
   String? errorMessage;
-
+  final List<GridItem> _listItem = [
+    GridItem(backgroundColor: Colors.amberAccent, text: "GYM 1"),
+    GridItem(backgroundColor: Colors.blueAccent, text: "GYM 2")
+  ];
   @override
   void initState() {
     firebaseHelper = FirebaseHelper();
@@ -92,6 +99,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: const Icon(Icons.menu),
+          title: const Text("Home")),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -102,9 +114,53 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 40),
             _userUid(),
             _signOutButton(),
-            userGraph()
+            userGraph(),
+            navigatorGrid()
           ],
         ),
+      ),
+    );
+  }
+
+  Expanded navigatorGrid() {
+    return Expanded(
+      child: GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        children: _listItem
+            .map(
+              (item) => Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: InkWell(
+                  onTap: () {
+                    print(item.text.toString());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: item.backgroundColor,
+                    ),
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.lock_open,
+                          size: 32,
+                        ),
+                        Text(
+                          item.text.toString(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
