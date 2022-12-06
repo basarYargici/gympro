@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../firebase_helper.dart';
 import '../../models/body_model.dart';
 import '../../models/user_model.dart';
@@ -65,7 +64,8 @@ class _SigninPageState extends State<SigninPage> {
         password: _controllerPassword.text,
       );
       await firebaseHelper.createUserDetailRecord(
-        user: MyUser(id: firebaseHelper.currentUser!.uid, bodyModel: bodyModelList),
+        user: MyUser(
+            id: firebaseHelper.currentUser!.uid, bodyModel: bodyModelList),
       );
 
       return true;
@@ -100,30 +100,130 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  Widget _entryField(
-    String hint,
-    bool obscureText,
-    bool showErrorMessage,
-    TextEditingController textEditingController,
-    Icon prefixIcon,
-  ) {
-    return TextField(
-      obscureText: obscureText,
-      controller: textEditingController,
-      decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          errorMaxLines: 2,
-          hintText: hint,
-          prefixIcon: prefixIcon),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Lottie.asset('assets/login_lottie.json'),
+              const SizedBox(height: 40),
+              emailInput(),
+              const SizedBox(height: 20),
+              passwordInput(),
+              forgotPasswordButton(),
+              const SizedBox(height: 30),
+              signinButton(),
+              const SizedBox(height: 30),
+              registerRow(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _signinButton() {
-    return ElevatedButton.icon(
-      icon: const Icon(
-        Icons.lock_open,
-        size: 32,
+  TextField emailInput() {
+    return TextField(
+      controller: _controllerEmail,
+      cursorColor: Colors.black,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(0.0),
+        labelText: 'Email',
+        hintText: 'Enter your E-mail',
+        labelStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+        ),
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 14.0,
+        ),
+        prefixIcon: const Icon(
+          Icons.mail,
+          color: Colors.black,
+          size: 18,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        floatingLabelStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black, width: 1.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
       ),
+    );
+  }
+
+  TextField passwordInput() {
+    return TextField(
+      controller: _controllerPassword,
+      cursorColor: Colors.black,
+      obscureText: true,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(0.0),
+        labelText: 'Password',
+        hintText: 'Enter Your Password',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 14.0,
+        ),
+        labelStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+        ),
+        prefixIcon: const Icon(
+          Icons.password,
+          color: Colors.black,
+          size: 18,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        floatingLabelStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black, width: 1.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
+  // todo şu anlık dummy
+  Row forgotPasswordButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: const Text(
+            'Forgot Password?',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400),
+          ),
+        )
+      ],
+    );
+  }
+
+  MaterialButton signinButton() {
+    return MaterialButton(
       onPressed: () {
         signInWithEmailAndPassword().then((value) {
           if (value == true) {
@@ -136,10 +236,23 @@ class _SigninPageState extends State<SigninPage> {
           }
         });
       },
-      label: const Text('Sign in'),
+      height: 45,
+      color: Colors.black,
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: const Text(
+        "Login",
+        style: TextStyle(color: Colors.white, fontSize: 16.0),
+      ),
     );
   }
 
+  /* 
   Widget _signupButton() {
     return ElevatedButton.icon(
       icon: const Icon(
@@ -160,47 +273,31 @@ class _SigninPageState extends State<SigninPage> {
       },
       label: const Text('Sign Up'),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset('assets/login_lottie.json'),
-              const SizedBox(height: 40),
-              _entryField(
-                'Enter mail',
-                false,
-                false,
-                _controllerEmail,
-                const Icon(Icons.mail),
-              ),
-              const SizedBox(height: 4),
-              _entryField(
-                'Enter password',
-                true,
-                true,
-                _controllerPassword,
-                const Icon(Icons.password),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(child: _signinButton()),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: _signupButton(),
-                  )
-                ],
-              ),
-            ]),
-      ),
+  } ´
+  */
+  // todo sign up ekranı oluşturup buraya bağlayacağız. yukarıdaki _signupButton widget ı gibi kullanacağız
+  Row registerRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Don\'t have an account?',
+          style: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: const Text(
+            'Register',
+            style: TextStyle(
+                color: Colors.blue,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400),
+          ),
+        )
+      ],
     );
   }
 }
