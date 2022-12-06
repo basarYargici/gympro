@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_pro/models/body_model.dart';
+import 'package:gym_pro/models/user_model.dart';
 import 'package:gym_pro/pages/before_login/signin_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../firebase_helper.dart';
-import '../../models/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,14 +16,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final User? user = FirebaseHelper().currentUser;
-  String? errorMessage;
-
+  late final User? user;
   late final FirebaseHelper firebaseHelper;
+  String? errorMessage;
 
   @override
   void initState() {
     firebaseHelper = FirebaseHelper();
+    user = FirebaseHelper().currentUser;
     super.initState();
   }
 
@@ -100,48 +100,34 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            SfCartesianChart(
-              // Initialize category axis
-              primaryXAxis: CategoryAxis(),
-              series: <LineSeries<SalesData, String>>[
-                LineSeries<SalesData, String>(
-                    // Bind data source
-                    dataSource: <SalesData>[
-                      SalesData('Jan', 35),
-                      SalesData('Feb', 28),
-                      SalesData('Mar', 34),
-                      SalesData('Apr', 32),
-                      SalesData('May', 40)
-                    ],
-                    xValueMapper: (SalesData sales, _) => sales.year,
-                    yValueMapper: (SalesData sales, _) => sales.sales)
-              ],
-            ),
             _userUid(),
             _signOutButton(),
-            // todo veri gösterimini düzelt
-            StreamBuilder(
-                stream: firebaseHelper.getUserDetail(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return SfCartesianChart(
-                      // Initialize category axis
-                      primaryXAxis: CategoryAxis(),
-                      series: <LineSeries<BodyModel, String>>[
-                        LineSeries<BodyModel, String>(
-                            // Bind data source
-                            dataSource: snapshot.data!.first.bodyModel!,
-                            xValueMapper: (BodyModel sales, _) => sales.weight,
-                            yValueMapper: (BodyModel sales, _) => 
-                                double.parse(sales.height.toString()))
-                      ],
-                    );
-                  }
-                  return const Text("nanan");
-                })
+            userGraph()
           ],
         ),
       ),
+    );
+  }
+
+  // todo veri kayıt, graphta gösterimi ve eğer bodyModel boşsa ya da nullsa durumunu düzelt
+  StreamBuilder<List<MyUser>> userGraph() {
+    return StreamBuilder(
+      stream: firebaseHelper.getUserDetail(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            series: <LineSeries<BodyModel, String>>[
+              LineSeries<BodyModel, String>(
+                  dataSource: snapshot.data!.first.bodyModel!,
+                  xValueMapper: (BodyModel sales, _) => sales.weight,
+                  yValueMapper: (BodyModel sales, _) =>
+                      double.parse(sales.height.toString()))
+            ],
+          );
+        }
+        return const Text("nanan");
+      },
     );
   }
 }
