@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import '../../firebase_helper.dart';
 import '../../models/body_model.dart';
 import '../../models/user_model.dart';
-import '../after_login/home_page.dart';
+import '../after_login/bottom_navbar_host.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
@@ -229,7 +229,7 @@ class _SigninPageState extends State<SigninPage> {
           if (value == true) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const BottomNavBarHost()),
             );
           } else {
             showToast(errorMessage);

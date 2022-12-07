@@ -48,7 +48,7 @@ class BottomNavBarHost extends StatelessWidget {
       screens: buildScreens(),
       items: navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.black, // Default is Colors.white.
+      backgroundColor: Colors.white, // Default is Colors.white.
       hideNavigationBarWhenKeyboardShows: true,
       decoration: const NavBarDecoration(
         colorBehindNavBar: Colors.white,
