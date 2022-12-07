@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_pro/pages/after_login/qr_page.dart';
-import 'package:gym_pro/pages/after_login/settings_page.dart';
+import 'package:gym_pro/pages/after_login/notify_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import 'home_page.dart';
@@ -16,7 +16,7 @@ class BottomNavBarHost extends StatelessWidget {
     controller = PersistentTabController(initialIndex: 0);
 
     List<Widget> buildScreens() {
-      return [const HomePage(), const QrScreen(), SettingsPage()];
+      return [const HomePage(), const QrScreen(), const NotifyPage()];
     }
 
     List<PersistentBottomNavBarItem> navBarsItems() {
@@ -34,8 +34,8 @@ class BottomNavBarHost extends StatelessWidget {
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.settings),
-          title: ("Settings"),
+          icon: const Icon(Icons.newspaper),
+          title: ("News"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
