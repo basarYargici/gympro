@@ -29,7 +29,7 @@ class BottomNavBarHost extends StatelessWidget {
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.qrcode),
-          title: ("Settings"),
+          title: ("QR Code"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
@@ -42,31 +42,39 @@ class BottomNavBarHost extends StatelessWidget {
       ];
     }
 
-    return PersistentTabView(
-      context,
-      controller: controller,
-      screens: buildScreens(),
-      items: navBarsItems(),
-      confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
-      hideNavigationBarWhenKeyboardShows: true,
-      decoration: const NavBarDecoration(
-        colorBehindNavBar: Colors.white,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Icon(Icons.menu),
+        title: const Text("Home"),
       ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: const ItemAnimationProperties(
-        // Navigation Bar's items animation properties.
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
+      body: PersistentTabView(
+        context,
+        controller: controller,
+        screens: buildScreens(),
+        items: navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white, // Default is Colors.white.
+        hideNavigationBarWhenKeyboardShows: true,
+        decoration: const NavBarDecoration(
+          colorBehindNavBar: Colors.white,
+        ),
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        itemAnimationProperties: const ItemAnimationProperties(
+          // Navigation Bar's items animation properties.
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: const ScreenTransitionAnimation(
+          // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle: NavBarStyle.style1,
       ),
-      screenTransitionAnimation: const ScreenTransitionAnimation(
-        // Screen transition animation on change of selected tab.
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
-      navBarStyle: NavBarStyle.style1,
     );
   }
 }
