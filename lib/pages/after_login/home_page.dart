@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -100,10 +99,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: const Icon(Icons.menu),
-          title: const Text("Home")),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Icon(Icons.menu),
+        title: const Text("Home"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,

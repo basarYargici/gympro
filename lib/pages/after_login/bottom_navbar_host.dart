@@ -16,7 +16,7 @@ class BottomNavBarHost extends StatelessWidget {
     controller = PersistentTabController(initialIndex: 0);
 
     List<Widget> buildScreens() {
-      return [const HomePage(), const QrScreen(), const SettingsPage()];
+      return [const HomePage(), const QrScreen(), SettingsPage()];
     }
 
     List<PersistentBottomNavBarItem> navBarsItems() {
