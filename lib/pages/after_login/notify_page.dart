@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/campaigns_model.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class NotifyPage extends StatefulWidget {
   const NotifyPage({super.key});
@@ -62,75 +63,144 @@ class _NotifyPageState extends State<NotifyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: getCampaignPager(context),
-      ),
-    );
-  }
-
-  Column getCampaignPager(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.all(8),
               child: Text(
-                "CAMPAIGNS",
+                "CAMPAIGNS1",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Text(
-              campaigns[currentIndex].title.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.grey.shade900,
-              ),
+            CarouselSlider(
+              options: CarouselOptions(height: 300),
+              items: campaigns.map((campaign) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                        padding: const EdgeInsets.all(8),
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.transparent,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  campaign.title.toString(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.grey.shade900,
+                                  ),
+                                ),
+                                Text(
+                                  campaign.description.toString(),
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Todo imagesize is not dynamic
+                            SizedBox(
+                                height: 200,
+                                width: MediaQuery.of(context).size.width,
+                                child: Image.network(
+                                  campaign.imageUrl.toString(),
+                                  fit: BoxFit.cover,
+                                )),
+                          ],
+                        ));
+                  },
+                );
+              }).toList(),
             ),
-            Text(
-              campaigns[currentIndex].description.toString(),
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade700,
-              ),
-            ),
+            getCampaignPager(context),
           ],
         ),
-        // Todo imagesize is not dynamic
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.height,
-          child: PageView.builder(
-            itemCount: campaigns.length,
-            onPageChanged: (int page) {
-              setState(() {
-                currentIndex = page;
-              });
-            },
-            controller: _pageController,
-            itemBuilder: (BuildContext context, int index) {
-              return Image.network(
-                campaigns[currentIndex].imageUrl.toString(),
-                fit: BoxFit.cover,
-              );
-            },
+      ),
+    );
+  }
+
+  Padding getCampaignPager(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, top: 32, right: 8, bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  "CAMPAIGNS",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                campaigns[currentIndex].title.toString(),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey.shade900,
+                ),
+              ),
+              Text(
+                campaigns[currentIndex].description.toString(),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+            ],
           ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: DotsIndicator(
-            dotsCount: campaigns.length,
-            position: currentIndex.toDouble(),
-            decorator:
-                const DotsDecorator(activeColor: CupertinoColors.activeBlue),
+          // Todo imagesize is not dynamic
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.height,
+            child: PageView.builder(
+              itemCount: campaigns.length,
+              onPageChanged: (int page) {
+                setState(() {
+                  currentIndex = page;
+                });
+              },
+              controller: _pageController,
+              itemBuilder: (BuildContext context, int index) {
+                return Image.network(
+                  campaigns[currentIndex].imageUrl.toString(),
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
           ),
-        ),
-      ],
+          Container(
+            alignment: Alignment.center,
+            child: DotsIndicator(
+              dotsCount: campaigns.length,
+              position: currentIndex.toDouble(),
+              decorator:
+                  const DotsDecorator(activeColor: CupertinoColors.activeBlue),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
