@@ -98,12 +98,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: const Icon(Icons.menu),
-        title: const Text("Home"),
-      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
