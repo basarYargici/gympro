@@ -37,17 +37,30 @@ class _OnBoardPageState extends State<OnBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black38,
+        centerTitle: true,
+        title: const Text(
+          "GymPRO",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
         elevation: 0,
         actions: [
-          TextButton(
-              onPressed: () {
-                sharedPrefHelper.setOnboardingShown();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SigninPage()),
-                );
-              },
-              child: const Text("Skip"))
+          IconButton(
+            icon: const Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              sharedPrefHelper.setOnboardingShown();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SigninPage()),
+              );
+            },
+          )
         ],
       ),
       body: Padding(
