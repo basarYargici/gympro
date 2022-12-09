@@ -15,7 +15,7 @@ class BottomNavBarHost extends StatefulWidget {
 
 class _BottomNavBarHostState extends State<BottomNavBarHost> {
   PersistentTabController? controller;
-
+  bool _hideAppBar = false;
   @override
   Widget build(BuildContext context) {
     controller = PersistentTabController(initialIndex: 0);
@@ -48,12 +48,7 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: const Icon(Icons.menu),
-        title: const Text("Home"),
-      ),
+      appBar: appBar(),
       body: PersistentTabView(
         context,
         controller: controller,
@@ -80,7 +75,27 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.style1,
+        onItemSelected: (value) {
+          if (value == 1) {
+            _hideAppBar = true;
+          } else {
+            _hideAppBar = false;
+          }
+          setState(() {});
+        },
       ),
+    );
+  }
+
+  PreferredSizeWidget? appBar() {
+    if (_hideAppBar) {
+      return null;
+    }
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: const Icon(Icons.menu),
+      title: const Text("Home"),
     );
   }
 }
