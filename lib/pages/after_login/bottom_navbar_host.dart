@@ -6,13 +6,18 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import 'home_page.dart';
 
-class BottomNavBarHost extends StatelessWidget {
+class BottomNavBarHost extends StatefulWidget {
   const BottomNavBarHost({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    PersistentTabController controller;
+  State<BottomNavBarHost> createState() => _BottomNavBarHostState();
+}
 
+class _BottomNavBarHostState extends State<BottomNavBarHost> {
+  PersistentTabController? controller;
+
+  @override
+  Widget build(BuildContext context) {
     controller = PersistentTabController(initialIndex: 0);
 
     List<Widget> buildScreens() {
@@ -57,6 +62,7 @@ class BottomNavBarHost extends StatelessWidget {
         confineInSafeArea: true,
         backgroundColor: Colors.white, // Default is Colors.white.
         hideNavigationBarWhenKeyboardShows: true,
+        stateManagement: false,
         decoration: const NavBarDecoration(
           colorBehindNavBar: Colors.white,
         ),

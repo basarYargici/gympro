@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^2.3.0
   flutter:
     sdk: flutter
+  flutter_countdown_timer: ^4.1.0
   flutter_lints: ^2.0.1
   fluttertoast: ^8.1.1
   lottie: ^2.0.0
