@@ -16,6 +16,8 @@ class BottomNavBarHost extends StatefulWidget {
 class _BottomNavBarHostState extends State<BottomNavBarHost> {
   PersistentTabController? controller;
   bool _hideAppBar = false;
+  String title = "Dashboard";
+
   @override
   Widget build(BuildContext context) {
     controller = PersistentTabController(initialIndex: 0);
@@ -79,6 +81,12 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
           if (value == 1) {
             _hideAppBar = true;
           } else {
+            if (value == 0) {
+              title = "Dashboard";
+            }
+            if (value == 2) {
+              title = "News";
+            }
             _hideAppBar = false;
           }
           setState(() {});
@@ -95,7 +103,7 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: const Icon(Icons.menu),
-      title: const Text("Home"),
+      title: Text(title),
     );
   }
 }
