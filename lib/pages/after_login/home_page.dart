@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_pro/pages/after_login/qr_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:gym_pro/models/body_model.dart';
@@ -10,6 +11,7 @@ import 'package:gym_pro/pages/before_login/signin_page.dart';
 
 import '../../firebase_helper.dart';
 import '../../models/grid_item_model.dart';
+import 'body_model_form_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,31 +25,32 @@ class _HomePageState extends State<HomePage> {
   late final FirebaseHelper firebaseHelper;
   String? errorMessage;
   final List<GridItem> _listItem = [
-    GridItem(backgroundColor: Colors.amberAccent, text: "GYM 1"),
-    GridItem(backgroundColor: Colors.blueAccent, text: "GYM 2")
+    GridItem(
+      backgroundColor: Colors.amberAccent,
+      text: "Yeni Boy Kilo Girişi",
+      icon: Icons.calculate,
+    ),
+    GridItem(
+      backgroundColor: Colors.blueAccent,
+      text: "GYM 2",
+      icon: Icons.calculate,
+    ),
+    GridItem(
+      backgroundColor: Colors.amberAccent,
+      text: "Yeni Boy Kilo Girişi",
+      icon: Icons.calculate,
+    ),
+    GridItem(
+      backgroundColor: Colors.blueAccent,
+      text: "GYM 2",
+      icon: Icons.calculate,
+    ),
   ];
   @override
   void initState() {
     firebaseHelper = FirebaseHelper();
     user = FirebaseHelper().currentUser;
     super.initState();
-  }
-
-  Future<bool> signOut() async {
-    try {
-      showCircularProgressIndicator();
-      await firebaseHelper.signOut();
-
-      return true;
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message.toString();
-      });
-
-      return false;
-    } finally {
-      Navigator.of(context).pop();
-    }
   }
 
   Future<dynamic> showCircularProgressIndicator() {
@@ -75,6 +78,23 @@ class _HomePageState extends State<HomePage> {
     return Text(user?.email ?? 'User email');
   }
 
+  Future<bool> signOut() async {
+    try {
+      showCircularProgressIndicator();
+      await firebaseHelper.signOut();
+
+      return true;
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message.toString();
+      });
+
+      return false;
+    } finally {
+      Navigator.of(context).pop();
+    }
+  }
+
   Widget _signOutButton() {
     return ElevatedButton(
       onPressed: () {
@@ -98,63 +118,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            _userUid(),
-            _signOutButton(),
-            userGraph(),
-            navigatorGrid()
-          ],
-        ),
-      ),
-    );
-  }
-
-  Expanded navigatorGrid() {
-    return Expanded(
-      child: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        children: _listItem
-            .map(
-              (item) => Card(
-                color: Colors.transparent,
-                elevation: 0,
-                child: InkWell(
-                  onTap: () {
-                    print(item.text.toString());
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: item.backgroundColor,
-                    ),
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.lock_open,
-                          size: 32,
-                        ),
-                        Text(
-                          item.text.toString(),
-                        ),
-                      ],
-                    ),
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              userGraph(),
+              const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "Which feature?",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            )
-            .toList(),
+              navigatorGrid(),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -176,8 +159,68 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         }
-        return const Text("nanan");
+        return SfCartesianChart(
+          primaryXAxis: CategoryAxis(),
+          series: <LineSeries<BodyModel, String>>[
+            LineSeries<BodyModel, String>(
+                dataSource: List.empty(),
+                xValueMapper: (BodyModel sales, _) => "0",
+                yValueMapper: (BodyModel sales, _) => double.parse(""))
+          ],
+        );
       },
+    );
+  }
+
+  GridView navigatorGrid() {
+    return GridView.count(
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 3,
+      shrinkWrap: true, // You won't see infinite size error
+      children: _listItem
+          .map(
+            (item) => Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        builder: (context) => const BodyModelFormPage(),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: item.backgroundColor,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          item.icon,
+                          size: 32,
+                        ),
+                        Text(
+                          item.text.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }
