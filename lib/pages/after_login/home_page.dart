@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -19,7 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final User? user;
   late final FirebaseHelper firebaseHelper;
   final List<GridItem> _listItem = [
     GridItem(
@@ -46,7 +44,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     firebaseHelper = FirebaseHelper();
-    user = FirebaseHelper().currentUser;
     super.initState();
   }
 
@@ -69,10 +66,6 @@ class _HomePageState extends State<HomePage> {
       textColor: Colors.white,
       fontSize: 16.0,
     );
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
   }
 
   @override

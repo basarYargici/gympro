@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class BodyModelFormPage extends StatefulWidget {
   const BodyModelFormPage({super.key});

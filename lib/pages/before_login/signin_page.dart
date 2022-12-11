@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_pro/pages/before_login/register_page.dart';
+import 'package:gym_pro/pages/before_login/reset_password_page.dart';
 import 'package:lottie/lottie.dart';
 import '../../firebase_helper.dart';
 import '../../models/body_model.dart';
@@ -210,7 +211,12 @@ class _SigninPageState extends State<SigninPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+            );
+          },
           child: const Text(
             'Forgot Password?',
             style: TextStyle(

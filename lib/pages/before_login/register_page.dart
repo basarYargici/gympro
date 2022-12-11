@@ -89,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             children: [
               const SizedBox(height: 100),
-              Container(
+              SizedBox(
                 height: 200,
                 child: Lottie.asset('assets/register_lottie.json'),
               ),
