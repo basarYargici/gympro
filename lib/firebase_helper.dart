@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'models/message_model.dart';
 import 'models/user_model.dart';
 
 class FirebaseHelper {
@@ -33,6 +34,15 @@ class FirebaseHelper {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<MessageModel> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return MessageModel(isSuccess: true);
+    } on FirebaseException catch (e) {
+      return MessageModel(isSuccess: false, message: e.message);
+    }
   }
 
   Future<void> createUserDetailRecord({
