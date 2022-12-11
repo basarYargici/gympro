@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gym_pro/pages/after_login/qr_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:gym_pro/models/body_model.dart';
 import 'package:gym_pro/models/user_model.dart';
-import 'package:gym_pro/pages/before_login/signin_page.dart';
 
 import '../../firebase_helper.dart';
 import '../../models/grid_item_model.dart';
@@ -23,7 +21,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final User? user;
   late final FirebaseHelper firebaseHelper;
-  String? errorMessage;
   final List<GridItem> _listItem = [
     GridItem(
       backgroundColor: Colors.amberAccent,
@@ -76,43 +73,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _userUid() {
     return Text(user?.email ?? 'User email');
-  }
-
-  Future<bool> signOut() async {
-    try {
-      showCircularProgressIndicator();
-      await firebaseHelper.signOut();
-
-      return true;
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message.toString();
-      });
-
-      return false;
-    } finally {
-      Navigator.of(context).pop();
-    }
-  }
-
-  Widget _signOutButton() {
-    return ElevatedButton(
-      onPressed: () {
-        signOut().then(
-          (value) {
-            if (value == true) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const SigninPage()),
-              );
-            } else {
-              showToast(errorMessage);
-            }
-          },
-        );
-      },
-      child: const Text('Sign Out'),
-    );
   }
 
   @override
