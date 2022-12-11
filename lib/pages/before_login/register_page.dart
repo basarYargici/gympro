@@ -1,21 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gym_pro/pages/before_login/register_page.dart';
 import 'package:lottie/lottie.dart';
 import '../../firebase_helper.dart';
 import '../../models/body_model.dart';
 import '../../models/user_model.dart';
 import '../after_login/bottom_navbar_host.dart';
 
-class SigninPage extends StatefulWidget {
-  const SigninPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<SigninPage> createState() => _SigninPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _SigninPageState extends State<SigninPage> {
+class _RegisterPageState extends State<RegisterPage> {
   String? errorMessage;
   bool isLogin = true;
 
@@ -36,27 +35,7 @@ class _SigninPageState extends State<SigninPage> {
     super.dispose();
   }
 
-  Future<bool> signInWithEmailAndPassword() async {
-    try {
-      showCircularProgressIndicator();
-
-      await firebaseHelper.signInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-
-      return true;
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message.toString();
-      });
-      return false;
-    } finally {
-      Navigator.of(context).pop();
-    }
-  }
-
-  Future<bool> signUpUserWithEmailAndPassword() async {
+  Future<bool> registerUserWithEmailAndPassword() async {
     try {
       showCircularProgressIndicator();
 
@@ -109,17 +88,17 @@ class _SigninPageState extends State<SigninPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const SizedBox(height: 50),
-              Lottie.asset('assets/signin_lottie.json'),
+              const SizedBox(height: 100),
+              Container(
+                height: 200,
+                child: Lottie.asset('assets/register_lottie.json'),
+              ),
               const SizedBox(height: 40),
               emailInput(),
               const SizedBox(height: 20),
               passwordInput(),
-              forgotPasswordButton(),
               const SizedBox(height: 30),
-              signinButton(),
-              const SizedBox(height: 30),
-              registerRow(),
+              registerButton(),
             ],
           ),
         ),
@@ -204,29 +183,10 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  // todo şu anlık dummy
-  Row forgotPasswordButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            'Forgot Password?',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400),
-          ),
-        )
-      ],
-    );
-  }
-
-  MaterialButton signinButton() {
+  MaterialButton registerButton() {
     return MaterialButton(
       onPressed: () {
-        signInWithEmailAndPassword().then((value) {
+        registerUserWithEmailAndPassword().then((value) {
           if (value == true) {
             Navigator.pushReplacement(
               context,
@@ -247,41 +207,9 @@ class _SigninPageState extends State<SigninPage> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: const Text(
-        "Login",
+        "Sign Up",
         style: TextStyle(color: Colors.white, fontSize: 16.0),
       ),
-    );
-  }
-
-  Row registerRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Don\'t have an account?',
-          style: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const RegisterPage(),
-              ),
-            );
-          },
-          child: const Text(
-            'Register',
-            style: TextStyle(
-                color: Colors.blue,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400),
-          ),
-        )
-      ],
     );
   }
 }
