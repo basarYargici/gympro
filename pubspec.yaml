@@ -45,6 +45,7 @@ dependencies:
   qr_flutter: ^4.0.0
   shared_preferences: ^2.0.15
   syncfusion_flutter_charts: ^20.3.59
+  vertical_card_pager: ^1.5.0
 
 dev_dependencies:
   flutter_test:
