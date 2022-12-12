@@ -17,31 +17,32 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: backButton(context),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Text(
-                "Enter your new body informations to keep track of it.",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey.shade500,
-                ),
+      appBar: backButton(context),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              "Enter your new body informations to keep track of it.",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.normal,
+                color: Colors.grey.shade500,
               ),
-              const SizedBox(height: 20),
-              weightInput(),
-              const SizedBox(height: 20),
-              heightInput(),
-              const SizedBox(height: 20),
-              bodyfatInput(),
-              const SizedBox(height: 20),
-              refreshButton()
-            ],
-          ),
-        ));
+            ),
+            const SizedBox(height: 20),
+            weightInput(),
+            const SizedBox(height: 20),
+            heightInput(),
+            const SizedBox(height: 20),
+            bodyfatInput(),
+            const SizedBox(height: 20),
+            refreshButton()
+          ],
+        ),
+      ),
+    );
   }
 
   AppBar backButton(BuildContext context) {
