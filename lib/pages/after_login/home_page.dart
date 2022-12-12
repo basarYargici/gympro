@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_pro/pages/after_login/group_lessons_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:gym_pro/models/body_model.dart';
@@ -19,30 +20,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final FirebaseHelper firebaseHelper;
-  final List<GridItem> _listItem = [
-    GridItem(
-      backgroundColor: Colors.amberAccent,
-      text: "Yeni Boy Kilo Girişi",
-      icon: Icons.calculate,
-    ),
-    GridItem(
-      backgroundColor: Colors.blueAccent,
-      text: "GYM 2",
-      icon: Icons.calculate,
-    ),
-    GridItem(
-      backgroundColor: Colors.amberAccent,
-      text: "Yeni Boy Kilo Girişi",
-      icon: Icons.calculate,
-    ),
-    GridItem(
-      backgroundColor: Colors.blueAccent,
-      text: "GYM 2",
-      icon: Icons.calculate,
-    ),
-  ];
+  late final List<GridItem> _listItem;
+
   @override
   void initState() {
+    _listItem = [
+      GridItem(
+        backgroundColor: Colors.amberAccent,
+        text: "Yeni Boy Kilo Girişi",
+        icon: Icons.calculate,
+        onTap: () {
+          Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(
+              builder: (context) => const BodyModelFormPage(),
+              fullscreenDialog: true,
+            ),
+          );
+        },
+      ),
+      GridItem(
+        backgroundColor: Colors.blueAccent,
+        text: "Grup Dersleri",
+        icon: Icons.group,
+        onTap: () {
+          Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(
+              builder: (context) => const GroupLessonPage(),
+              fullscreenDialog: true,
+            ),
+          );
+        },
+      ),
+      GridItem(
+        backgroundColor: Colors.amberAccent,
+        text: "Yeni Boy Kilo Girişi",
+        icon: Icons.calculate,
+      ),
+      GridItem(
+        backgroundColor: Colors.blueAccent,
+        text: "GYM 2",
+        icon: Icons.calculate,
+      ),
+    ];
     firebaseHelper = FirebaseHelper();
     super.initState();
   }
@@ -139,12 +158,7 @@ class _HomePageState extends State<HomePage> {
                 elevation: 0,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                      MaterialPageRoute(
-                        builder: (context) => const BodyModelFormPage(),
-                        fullscreenDialog: true,
-                      ),
-                    );
+                    item.onTap?.call();
                   },
                   child: Container(
                     decoration: BoxDecoration(

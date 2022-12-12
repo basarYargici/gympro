@@ -8,21 +8,26 @@ class GridItem {
   Color? backgroundColor;
   String? text;
   IconData? icon;
+  Function? onTap;
+
   GridItem({
     this.backgroundColor,
     this.text,
     this.icon,
+    this.onTap,
   });
 
   GridItem copyWith({
     Color? backgroundColor,
     String? text,
     IconData? icon,
+    Function? onTap,
   }) {
     return GridItem(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       text: text ?? this.text,
       icon: icon ?? this.icon,
+      onTap: onTap ?? this.onTap,
     );
   }
 
@@ -47,7 +52,9 @@ class GridItem {
   factory GridItem.fromJson(String source) => GridItem.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'GridItem(backgroundColor: $backgroundColor, text: $text, icon: $icon)';
+  String toString() {
+    return 'GridItem(backgroundColor: $backgroundColor, text: $text, icon: $icon, onTap: $onTap)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -56,9 +63,15 @@ class GridItem {
     return other is GridItem &&
       other.backgroundColor == backgroundColor &&
       other.text == text &&
-      other.icon == icon;
+      other.icon == icon &&
+      other.onTap == onTap;
   }
 
   @override
-  int get hashCode => backgroundColor.hashCode ^ text.hashCode ^ icon.hashCode;
+  int get hashCode {
+    return backgroundColor.hashCode ^
+      text.hashCode ^
+      icon.hashCode ^
+      onTap.hashCode;
+  }
 }
