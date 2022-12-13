@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_pro/pages/after_login/group_lessons_page.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:gym_pro/models/body_model.dart';
@@ -23,25 +21,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final FirebaseHelper firebaseHelper;
   late final List<GridItem> _listItem;
-  late final StopWatchTimer _stopWatchTimer; // Create instance.
+  var now = DateTime.now();
+  var subscriptionLastDate = DateTime(2025); // todo get from firebase
+  late Duration diff;
+  late String diffText;
+  late IconData icon;
 
   @override
   void initState() {
-    _stopWatchTimer = StopWatchTimer(
-      mode: StopWatchMode.countDown,
-      onChange: (value) {
-        final displayTime = StopWatchTimer.getDisplayTime(value);
-        print('displayTime $displayTime');
-      },
-      onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
-      onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
-      onEnded: () => print('timer ended'),
-    );
-
-    _stopWatchTimer.onStartTimer();
-
-    _stopWatchTimer.setPresetHoursTime(1);
-
+    diff = subscriptionLastDate.difference(now);
+    var diffDays = int.parse(diff.inDays.toString());
+    if (diffDays <= 0) {
+      diff = const Duration();
+      diffText = "Your Subscription Is Ended";
+      icon = Icons.timer_off_outlined;
+    } else {
+      diffText =
+          "Your Subscription Continues \n For ${diff.inDays.toString()} Days";
+      icon = Icons.timer_outlined;
+    }
     _listItem = [
       GridItem(
         backgroundColor: Colors.amberAccent,
@@ -69,28 +67,9 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      GridItem(
-        backgroundColor: Colors.amberAccent,
-        text: "Yeni Boy Kilo Girişi",
-        icon: Icons.calculate,
-        onTap: () {
-          Navigator.of(context, rootNavigator: true).push(
-            MaterialPageRoute(
-              builder: (context) => const GroupLessonPage(),
-              fullscreenDialog: true,
-            ),
-          );
-        },
-      )
     ];
     firebaseHelper = FirebaseHelper();
     super.initState();
-  }
-
-  @override
-  void dispose() async {
-    super.dispose();
-    await _stopWatchTimer.dispose(); // Need to call dispose function.
   }
 
   Future<dynamic> showCircularProgressIndicator() {
@@ -134,60 +113,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               navigatorGrid(),
-
-              // todo timeri degistir. Altına Subscription için ekran ekle. O ekranda yeni üyelik fiyatları gösterilsin. Eğer kullanıcı herhangi birine tıklarsa pop up ile emin misiniz sorusuna evet derse, talebiniz klüp yönetimine iletilmiştir, işlemi klüp danışmanı ile sonlandırabilirsiniz yazdır.
-              StreamBuilder<int>(
-                stream: _stopWatchTimer.rawTime,
-                initialData: 0,
-                builder: (context, snap) {
-                  final value = snap.data;
-                  print('Listen every minute. $value');
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 4),
-                                child: Text(
-                                  'minute',
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'Helvetica',
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4),
-                                child: Text(
-                                  StopWatchTimer.getDisplayTime(value!)
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(color: Colors.amber),
-                                child: Text(
-                                    StopWatchTimer.getMinute(value).toString()),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(color: Colors.amber),
-                                child: Text(StopWatchTimer.getRawSecond(value)
-                                    .toString()),
-                              ),
-                            ],
-                          )),
-                    ],
-                  );
-                },
-              ),
+              subscriptionInfoCard(context),
             ],
           ),
         ],
@@ -228,8 +154,8 @@ class _HomePageState extends State<HomePage> {
   GridView navigatorGrid() {
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      shrinkWrap: true, // You won't see infinite size error
+      crossAxisCount: 2,
+      shrinkWrap: true,
       children: _listItem
           .map(
             (item) => Padding(
@@ -269,6 +195,50 @@ class _HomePageState extends State<HomePage> {
             ),
           )
           .toList(),
+    );
+  }
+
+  Padding subscriptionInfoCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Card(
+        color: Colors.transparent,
+        elevation: 0,
+        child: InkWell(
+          onTap: () {
+            // item.onTap?.call();
+          },
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.1,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.amber,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 32.0),
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
+                    size: 48,
+                  ),
+                  Expanded(
+                    child: Text(
+                      diffText,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
