@@ -188,6 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
       onPressed: () {
         registerUserWithEmailAndPassword().then((value) {
           if (value == true) {
+            Navigator.pop(context);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const BottomNavBarHost()),

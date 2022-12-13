@@ -272,7 +272,6 @@ class _SigninPageState extends State<SigninPage> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const RegisterPage(),
