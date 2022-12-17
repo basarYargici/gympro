@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              userGraph(),
+              userGraph(firebaseHelper.currentUser!.uid),
               const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
@@ -122,31 +122,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   // todo veri kayıt, graphta gösterimi ve eğer bodyModel boşsa ya da nullsa durumunu düzelt
-  StreamBuilder<List<MyUser>> userGraph() {
-    return StreamBuilder(
-      stream: firebaseHelper.getUserDetail(),
+  FutureBuilder<MyUser> userGraph(String userId) {
+    return FutureBuilder(
+      future: FirebaseHelper().getUserBodyModel(userId),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Card(
+            color: Colors.transparent,
+            elevation: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.blueAccent),
+              ),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'A Problem Occured While Loading The Data',
+                    softWrap: true,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
         if (snapshot.hasData) {
           return SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             series: <LineSeries<BodyModel, String>>[
               LineSeries<BodyModel, String>(
-                  dataSource: snapshot.data!.first.bodyModel!,
+                  dataSource: snapshot.data!.bodyModel!,
                   xValueMapper: (BodyModel sales, _) => sales.weight,
                   yValueMapper: (BodyModel sales, _) =>
                       double.parse(sales.height.toString()))
             ],
           );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
-        return SfCartesianChart(
-          primaryXAxis: CategoryAxis(),
-          series: <LineSeries<BodyModel, String>>[
-            LineSeries<BodyModel, String>(
-                dataSource: List.empty(),
-                xValueMapper: (BodyModel sales, _) => "0",
-                yValueMapper: (BodyModel sales, _) => double.parse(""))
-          ],
-        );
       },
     );
   }

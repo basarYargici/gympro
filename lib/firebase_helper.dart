@@ -62,4 +62,16 @@ class FirebaseHelper {
             )
             .toList());
   }
+
+  Future<MyUser> getUserBodyModel(String userId) {
+    final docRef =
+        FirebaseFirestore.instance.collection("userDetail").doc(userId);
+    return docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return MyUser.fromMap(data);
+      },
+      onError: (e) => Future.error(e),
+    );
+  }
 }
