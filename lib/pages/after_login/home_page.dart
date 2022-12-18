@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     _listItem = [
       GridItem(
         backgroundColor: Colors.amberAccent,
-        text: "Yeni Boy Kilo Girişi",
+        text: "New Body Info Record",
         icon: Icons.calculate,
         onTap: () {
           Navigator.of(context, rootNavigator: true).push(
@@ -152,6 +152,31 @@ class _HomePageState extends State<HomePage> {
           );
         }
         if (snapshot.hasData) {
+          if (snapshot.data?.bodyModel == null) {
+            return Card(
+              color: Colors.transparent,
+              elevation: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.blueAccent),
+                ),
+                child: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'You Should Add Body Info Record To See The Graph',
+                      softWrap: true,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
           return SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             series: <LineSeries<BodyModel, String>>[
