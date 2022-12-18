@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
         text: "New Body Info Record",
         icon: Icons.calculate,
         onTap: () {
+          Navigator.of(context).pop();
           Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
               builder: (context) => const BodyModelFormPage(),
@@ -121,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // todo veri kayıt, graphta gösterimi ve eğer bodyModel boşsa ya da nullsa durumunu düzelt
+  // todo veri kayıt, graphta gösterimi
   FutureBuilder<MyUser> userGraph(String userId) {
     return FutureBuilder(
       future: FirebaseHelper().getUserBodyModel(userId),
@@ -152,7 +153,8 @@ class _HomePageState extends State<HomePage> {
           );
         }
         if (snapshot.hasData) {
-          if (snapshot.data?.bodyModel == null) {
+          if (snapshot.data?.bodyModel == null ||
+              snapshot.data?.bodyModel.isEmpty == true) {
             return Card(
               color: Colors.transparent,
               elevation: 0,
@@ -181,7 +183,7 @@ class _HomePageState extends State<HomePage> {
             primaryXAxis: CategoryAxis(),
             series: <LineSeries<BodyModel, String>>[
               LineSeries<BodyModel, String>(
-                  dataSource: snapshot.data!.bodyModel!,
+                  dataSource: snapshot.data!.bodyModel,
                   xValueMapper: (BodyModel sales, _) => sales.weight,
                   yValueMapper: (BodyModel sales, _) =>
                       double.parse(sales.height.toString()))

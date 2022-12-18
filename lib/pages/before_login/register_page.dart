@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
       await firebaseHelper.createUserDetailRecord(
         user: MyUser(
           id: firebaseHelper.currentUser!.uid,
-          bodyModel: null,
+          bodyModel: List<BodyModel>.empty(),
           mail: firebaseHelper.currentUser!.email,
         ),
       );

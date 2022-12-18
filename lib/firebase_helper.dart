@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'models/body_model.dart';
 import 'models/message_model.dart';
 import 'models/user_model.dart';
 
@@ -61,6 +62,39 @@ class FirebaseHelper {
               (doc) => MyUser.fromMap(doc.data()),
             )
             .toList());
+  }
+
+  Future<void> addUserBodyModel(String userId, BodyModel bodyModel) {
+    final docRef =
+        FirebaseFirestore.instance.collection("userDetail").doc(userId);
+    List<BodyModel> updatedList = List.empty(growable: true);
+    List<BodyModel> originalList = List.empty(growable: true);
+    return getUserBodyModelList(userId).then(
+      (value) => {
+        if (value != null)
+          {
+            originalList = value,
+            originalList.forEach((e) => updatedList.add(e)),
+            updatedList.add(bodyModel),
+          }
+        else
+          {updatedList.add(bodyModel)},
+        docRef.update(toMapBodyModelList(updatedList)),
+      },
+      onError: (e) => Future.error(e),
+    );
+  }
+
+  Future<List<BodyModel>?> getUserBodyModelList(String userId) {
+    final docRef =
+        FirebaseFirestore.instance.collection("userDetail").doc(userId);
+    return docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return MyUser.fromMap(data).bodyModel;
+      },
+      onError: (e) => Future.error(e),
+    );
   }
 
   Future<MyUser> getUserBodyModel(String userId) {

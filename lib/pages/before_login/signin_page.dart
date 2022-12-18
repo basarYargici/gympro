@@ -67,7 +67,9 @@ class _SigninPageState extends State<SigninPage> {
       );
       await firebaseHelper.createUserDetailRecord(
         user: MyUser(
-            id: firebaseHelper.currentUser!.uid, bodyModel: bodyModelList),
+          id: firebaseHelper.currentUser!.uid,
+          bodyModel: List<BodyModel>.empty(),
+        ),
       );
 
       return true;
@@ -214,7 +216,8 @@ class _SigninPageState extends State<SigninPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+              MaterialPageRoute(
+                  builder: (context) => const ResetPasswordPage()),
             );
           },
           child: const Text(

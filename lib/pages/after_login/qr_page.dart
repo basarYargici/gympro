@@ -19,7 +19,7 @@ class _QrScreenState extends State<QrScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top:40.0),
+        padding: const EdgeInsets.only(top: 40.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,11 +60,10 @@ class _QrScreenState extends State<QrScreen> {
       );
     }
     return Padding(
-      padding: const EdgeInsets.only(top:32.0),
+      padding: const EdgeInsets.only(top: 32.0),
       child: Center(
         child: TimeCircularCountdown(
           onCanceled: (unit, remaining) {
-            print("cancelled");
             isTimerFinished = true;
             countDownTotal = 3;
             setState(() {});
@@ -73,7 +72,6 @@ class _QrScreenState extends State<QrScreen> {
           countdownRemainingColor: Colors.transparent,
           unit: CountdownUnit.second,
           countdownTotal: countDownTotal,
-          onUpdated: (unit, remainingTime) => print('Updated'),
           textStyle: const TextStyle(
             color: Colors.orange,
             fontSize: 70,

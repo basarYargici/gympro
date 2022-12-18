@@ -7,11 +7,11 @@ import 'body_model.dart';
 class MyUser {
   final String? id;
   final String? mail;
-  final List<BodyModel>? bodyModel;
+  final List<BodyModel> bodyModel;
   MyUser({
     this.id,
     this.mail,
-    this.bodyModel,
+    required this.bodyModel,
   });
 
   MyUser copyWith({
@@ -30,7 +30,7 @@ class MyUser {
     return <String, dynamic>{
       'id': id,
       'mail': mail,
-      'bodyModel': bodyModel?.map((x) => x.toMap()).toList(),
+      'bodyModel': bodyModel.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -38,13 +38,11 @@ class MyUser {
     return MyUser(
       id: map['id'] != null ? map['id'] as String : null,
       mail: map['mail'] != null ? map['mail'] as String : null,
-      bodyModel: map['bodyModel'] != null
-          ? List<BodyModel>.from(
-              (map['bodyModel']).map<BodyModel?>(
-                (x) => BodyModel.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
+      bodyModel: List<BodyModel>.from(
+        map['bodyModel'].map<BodyModel>(
+          (x) => BodyModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -67,13 +65,4 @@ class MyUser {
 
   @override
   int get hashCode => id.hashCode ^ mail.hashCode ^ bodyModel.hashCode;
-}
-
-class SalesData {
-  final String year;
-  final double sales;
-  SalesData(
-    this.year,
-    this.sales,
-  );
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_pro/models/body_model.dart';
+import 'package:gym_pro/pages/after_login/bottom_navbar_host.dart';
+
+import '../../firebase_helper.dart';
 
 class BodyModelFormPage extends StatefulWidget {
   const BodyModelFormPage({super.key});
@@ -9,37 +13,46 @@ class BodyModelFormPage extends StatefulWidget {
 }
 
 class _BodyModelFormPageState extends State<BodyModelFormPage> {
+  late final FirebaseHelper firebaseHelper;
   final formKey = GlobalKey<FormState>();
   final TextEditingController _controllerWeight = TextEditingController();
   final TextEditingController _controllerHeight = TextEditingController();
   final TextEditingController _controllerBodyfat = TextEditingController();
 
   @override
+  void initState() {
+    firebaseHelper = FirebaseHelper();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: backButton(context),
-      body: Padding(
-         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Text(
-              "Enter your new body informations to keep track of it.",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.normal,
-                color: Colors.grey.shade500,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Text(
+                "Enter your new body informations to keep track of it.",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey.shade500,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            weightInput(),
-            const SizedBox(height: 20),
-            heightInput(),
-            const SizedBox(height: 20),
-            bodyfatInput(),
-            const SizedBox(height: 20),
-            refreshButton()
-          ],
+              const SizedBox(height: 20),
+              weightInput(),
+              const SizedBox(height: 20),
+              heightInput(),
+              const SizedBox(height: 20),
+              bodyfatInput(),
+              const SizedBox(height: 20),
+              addButton()
+            ],
+          ),
         ),
       ),
     );
@@ -50,7 +63,10 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNavBarHost()),
+        ),
       ),
       elevation: 0,
       title: const Text("Personal Progress"),
@@ -171,12 +187,26 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
     );
   }
 
-  Center refreshButton() {
+  // todo add form validation
+  Center addButton() {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          // todo save to firebase with user id
-          Navigator.of(context).pop();
+          var bodyModel = BodyModel(
+            weight: _controllerWeight.text.toString(),
+            height: _controllerHeight.text.toString(),
+            fatRate: _controllerBodyfat.text.toString(),
+          );
+
+          firebaseHelper
+              .addUserBodyModel(firebaseHelper.currentUser!.uid, bodyModel)
+              .then(
+                (value) => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBarHost()),
+                ),
+              );
         },
         child: const Text('Click to save your progress'),
       ),

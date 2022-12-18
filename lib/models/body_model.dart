@@ -2,13 +2,14 @@ import 'dart:convert';
 
 class BodyModel {
   // todo verinin girildiği tarih için date de al
-  String? weight;
-  String? height;
-  String? fatRate;
+  String weight = "0";
+  String height = "0";
+  String fatRate = "0";
+  
   BodyModel({
-    this.weight,
-    this.height,
-    this.fatRate,
+    required this.weight,
+    required this.height,
+    required this.fatRate,
   });
 
   BodyModel copyWith({
@@ -33,9 +34,9 @@ class BodyModel {
 
   factory BodyModel.fromMap(Map<String, dynamic> map) {
     return BodyModel(
-      weight: map['weight'] != null ? map['weight'] as String : null,
-      height: map['height'] != null ? map['height'] as String : null,
-      fatRate: map['fatRate'] != null ? map['fatRate'] as String : null,
+      weight: map['weight'] as String,
+      height: map['height'] as String,
+      fatRate: map['fatRate'] as String,
     );
   }
 
@@ -61,30 +62,8 @@ class BodyModel {
   int get hashCode => weight.hashCode ^ height.hashCode ^ fatRate.hashCode;
 }
 
-List<BodyModel> bodyModelList = [
-  BodyModel(
-    weight: "110",
-    height: "190",
-    fatRate: "24",
-  ),
-  BodyModel(
-    weight: "108",
-    height: "190",
-    fatRate: "23",
-  ),
-  BodyModel(
-    weight: "106",
-    height: "190",
-    fatRate: "22",
-  ),
-  BodyModel(
-    weight: "108",
-    height: "190",
-    fatRate: "22",
-  ),
-  BodyModel(
-    weight: "104",
-    height: "190",
-    fatRate: "22",
-  ),
-];
+Map<String, dynamic> toMapBodyModelList(List<BodyModel> list) {
+  return <String, dynamic>{
+    'bodyModel': list.map((x) => x.toMap()).toList(),
+  };
+}
