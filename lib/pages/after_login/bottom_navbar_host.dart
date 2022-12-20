@@ -152,7 +152,7 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
               title = "Dashboard";
             }
             if (value == 2) {
-              title = "News";
+              title = "Get Notified";
             }
             _hideAppBar = false;
           }

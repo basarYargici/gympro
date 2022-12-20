@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/body_model.dart';
+import 'models/notify_model.dart';
 import 'models/message_model.dart';
 import 'models/user_model.dart';
 
@@ -53,17 +54,6 @@ class FirebaseHelper {
     await docUser.set(user.toMap());
   }
 
-  Stream<List<MyUser>> getUserDetail() {
-    return _firebaseStore
-        .collection('userDetail')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map(
-              (doc) => MyUser.fromMap(doc.data()),
-            )
-            .toList());
-  }
-
   Future<void> addUserBodyModel(String userId, BodyModel bodyModel) {
     final docRef =
         FirebaseFirestore.instance.collection("userDetail").doc(userId);
@@ -107,5 +97,17 @@ class FirebaseHelper {
       },
       onError: (e) => Future.error(e),
     );
+  }
+
+  Stream<NotifyModel> getNotified() {
+    return _firebaseStore.collection('news').snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => NotifyModel.fromMap(
+                  doc.data(),
+                ),
+              )
+              .first,
+        );
   }
 }
