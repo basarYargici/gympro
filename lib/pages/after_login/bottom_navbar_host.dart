@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_pro/pages/after_login/qr_page.dart';
 import 'package:gym_pro/pages/after_login/notify_page.dart';
+import 'package:gym_pro/pages/after_login/web_view_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../firebase_helper.dart';
@@ -26,6 +27,10 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
 
   bool _hideAppBar = false;
   String title = "Dashboard";
+  final String subscriptionLink = "https://www.njoy.com.tr/uyelik-hakkinda/";
+  final String galleryLink = "https://www.njoy.com.tr/njoy-galeri/";
+  final String workshopsLink = "https://www.njoy.com.tr/studyo-ders-programi/";
+  final String blogLink = "https://www.njoy.com.tr/spor-salonu-blog/";
 
   @override
   void initState() {
@@ -103,6 +108,7 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
       ];
     }
 
+    // todo biz kimiz kurumumuz iletişim
     return Scaffold(
       appBar: appBar(),
       drawer: Drawer(
@@ -178,7 +184,7 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
             height: 12,
           ),
           const Text(
-            'ASDASD',
+            "Başar Y.",
             style: TextStyle(fontSize: 28, color: Colors.white),
           ),
           Text(
@@ -200,41 +206,46 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
         children: [
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("data"),
+            title: const Text("Club Subscription"),
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const BodyModelFormPage(),
-                ),
-              );
+              navigateToWebViewWidget(context, subscriptionLink);
             },
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("data"),
+            title: const Text("Gallery"),
             onTap: () {
-              Navigator.pop(context);
+              navigateToWebViewWidget(context, galleryLink);
             },
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("data"),
-            onTap: () {},
+            title: const Text("Workshops"),
+            onTap: () {
+              navigateToWebViewWidget(context, workshopsLink);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("data"),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text("data"),
-            onTap: () {},
+            title: const Text("Blog"),
+            onTap: () {
+              navigateToWebViewWidget(context, blogLink);
+            },
           ),
           getDivider(),
           _signOutButton()
         ],
+      ),
+    );
+  }
+
+  void navigateToWebViewWidget(BuildContext context, String webUrl) {
+    Navigator.pop(context);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => WebViewPage(
+          url: webUrl,
+        ),
       ),
     );
   }
