@@ -86,12 +86,16 @@ class OnboardingShownWidget extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: isSignedin,
         builder: (context, snapshot) {
-          // todo önce signin ekranı gelip gidiyor stream sonucu. connection state e göre bunu düzel
-          if (snapshot.hasData) {
-            return const BottomNavBarHost();
-          } else {
-            return const SigninPage();
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return const BottomNavBarHost();
+            } else {
+              return const SigninPage();
+            }
           }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
