@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_pro/pages/after_login/web_view_page.dart';
 
 import '../../firebase_helper.dart';
 import '../../models/notify_model.dart';
@@ -121,45 +122,51 @@ class _NotifyPageState extends State<NotifyPage> {
       items: newsItemModel?.map((news) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-                padding: const EdgeInsets.all(16),
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.transparent,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        news.title.toString(),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey.shade900,
-                        ),
-                      ),
-                      Text(
-                        news.description.toString(),
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade700,
-                        ),
-                      ),
-                      SizedBox(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                          child: Image.network(
-                            news.imageUrl.toString(),
-                            fit: BoxFit.fitHeight,
-                          )),
-                    ],
+            return InkWell(
+              onTap: () => navigateToWebViewWidget(
+                context,
+                "https://www.njoy.com.tr",
+              ),
+              child: Container(
+                  padding: const EdgeInsets.all(16),
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.transparent,
                   ),
-                ));
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          news.title.toString(),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey.shade900,
+                          ),
+                        ),
+                        Text(
+                          news.description.toString(),
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                        SizedBox(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: Image.network(
+                              news.imageUrl.toString(),
+                              fit: BoxFit.fitHeight,
+                            )),
+                      ],
+                    ),
+                  )),
+            );
           },
         );
       }).toList(),
@@ -172,47 +179,63 @@ class _NotifyPageState extends State<NotifyPage> {
       items: newsItemModel?.map((campaign) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-                padding: const EdgeInsets.all(16),
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.transparent,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      campaign.title.toString(),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey.shade900,
+            return InkWell(
+              onTap: () => navigateToWebViewWidget(
+                context,
+                "https://www.njoy.com.tr",
+              ),
+              child: Container(
+                  padding: const EdgeInsets.all(16),
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.transparent,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        campaign.title.toString(),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade900,
+                        ),
                       ),
-                    ),
-                    Text(
-                      campaign.description.toString(),
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade700,
+                      Text(
+                        campaign.description.toString(),
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey.shade700,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                        height: 200,
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.network(
-                          campaign.imageUrl.toString(),
-                          fit: BoxFit.fitWidth,
+                      SizedBox(
                           height: 200,
-                        )),
-                  ],
-                ));
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.network(
+                            campaign.imageUrl.toString(),
+                            fit: BoxFit.fitWidth,
+                            height: 200,
+                          )),
+                    ],
+                  )),
+            );
           },
         );
       }).toList(),
+    );
+  }
+
+  void navigateToWebViewWidget(BuildContext context, String webUrl) {
+    Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute(
+        builder: (context) => WebViewPage(
+          url: webUrl,
+        ),
+      ),
     );
   }
 }

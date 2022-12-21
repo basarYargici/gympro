@@ -107,7 +107,6 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
       ];
     }
 
-    // todo biz kimiz kurumumuz iletişim
     return Scaffold(
       appBar: appBar(),
       drawer: Drawer(
