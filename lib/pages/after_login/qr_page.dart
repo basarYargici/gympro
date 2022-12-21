@@ -12,6 +12,9 @@ class QrScreen extends StatefulWidget {
 class _QrScreenState extends State<QrScreen> {
   final String image =
       "https://www.expatica.com/app/uploads/sites/10/2014/05/best-place-to-live-in-uk.jpg";
+  var currentTimeExpiredMessage =
+      'Current Time Expired. \n You should scan the QR before the expiration time!';
+
   bool isTimerFinished = false;
   int countDownTotal = 3;
 
@@ -152,18 +155,17 @@ class _QrScreenState extends State<QrScreen> {
 
   Widget qrCodeError() {
     return Column(
-      // ignore: prefer_const_literals_to_create_immutables
       children: [
         const Icon(
           Icons.error,
           color: Colors.black,
           size: 300,
         ),
-        const Text(
-          "Current Time Expired. \n You should scan the QR before the expiration time!",
+        Text(
+          currentTimeExpiredMessage,
           softWrap: true,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
           ),

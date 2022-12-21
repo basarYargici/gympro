@@ -9,7 +9,6 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../firebase_helper.dart';
 import '../before_login/signin_page.dart';
-import 'body_model_form_page.dart';
 import 'home_page.dart';
 
 class BottomNavBarHost extends StatefulWidget {
@@ -34,9 +33,9 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
 
   @override
   void initState() {
+    super.initState();
     firebaseHelper = FirebaseHelper();
     user = FirebaseHelper().currentUser;
-    super.initState();
   }
 
   Future<dynamic> showCircularProgressIndicator() {

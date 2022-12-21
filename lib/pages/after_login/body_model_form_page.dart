@@ -21,8 +21,8 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
 
   @override
   void initState() {
-    firebaseHelper = FirebaseHelper();
     super.initState();
+    firebaseHelper = FirebaseHelper();
   }
 
   @override
@@ -63,10 +63,7 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNavBarHost()),
-        ),
+        onPressed: () => Navigator.of(context).pop(),
       ),
       elevation: 0,
       title: const Text("Personal Progress"),
@@ -201,11 +198,9 @@ class _BodyModelFormPageState extends State<BodyModelFormPage> {
           firebaseHelper
               .addUserBodyModel(firebaseHelper.currentUser!.uid, bodyModel)
               .then(
-                (value) => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BottomNavBarHost()),
-                ),
+                (value) => {
+                  Navigator.of(context).pop(),
+                },
               );
         },
         child: const Text('Click to save your progress'),
