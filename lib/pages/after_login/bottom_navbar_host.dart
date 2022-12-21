@@ -205,28 +205,28 @@ class _BottomNavBarHostState extends State<BottomNavBarHost> {
         runSpacing: 8,
         children: [
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.sports_gymnastics_outlined),
             title: const Text("Club Subscription"),
             onTap: () {
               navigateToWebViewWidget(context, subscriptionLink);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.image),
             title: const Text("Gallery"),
             onTap: () {
               navigateToWebViewWidget(context, galleryLink);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.groups_sharp),
             title: const Text("Workshops"),
             onTap: () {
               navigateToWebViewWidget(context, workshopsLink);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.article),
             title: const Text("Blog"),
             onTap: () {
               navigateToWebViewWidget(context, blogLink);
