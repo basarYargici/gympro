@@ -128,7 +128,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // todo veri kayıt, graphta gösterimi
   FutureBuilder<MyUser> userGraph(String userId) {
     return FutureBuilder(
       future: FirebaseHelper().getUserBodyModel(userId),

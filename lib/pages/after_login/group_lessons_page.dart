@@ -48,7 +48,6 @@ class _GroupLessonPageState extends State<GroupLessonPage> {
 
     images.addAll(
       _listItem.map((e) =>
-          // todo add placeholder and on error
           Image.asset(e.imageUrl.toString())),
     );
     titles.addAll(

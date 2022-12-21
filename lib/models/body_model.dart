@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class BodyModel {
-  // todo verinin girildiği tarih için date de al
   String weight = "0";
   String height = "0";
   String fatRate = "0";

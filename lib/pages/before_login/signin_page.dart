@@ -207,7 +207,6 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  // todo şu anlık dummy
   Row forgotPasswordButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
