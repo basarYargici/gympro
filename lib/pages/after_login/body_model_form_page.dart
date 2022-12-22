@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_pro/models/body_model.dart';
-import 'package:gym_pro/pages/after_login/bottom_navbar_host.dart';
 
 import '../../firebase_helper.dart';
 

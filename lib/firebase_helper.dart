@@ -64,6 +64,7 @@ class FirebaseHelper {
         if (value != null)
           {
             originalList = value,
+            // ignore: avoid_function_literals_in_foreach_calls
             originalList.forEach((e) => updatedList.add(e)),
             updatedList.add(bodyModel),
           }
