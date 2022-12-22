@@ -30,13 +30,13 @@ Drawer 2 | Add Progress 1 | Add Progress 2
 :-------------------------:|:-------------------------:|:-------------------------:|
 <img src="images/drawer_2.png" style="width:275"/> | <img src="images/add_progress_2.png" style="width:275"/> | <img src="images/add_progress_3.png" style="width:275"/> |
 
-Group Lessons  | QR Page 1 | QR Page 2
+Group Lessons  | Notify Me | WebBrowser
 :-------------------------:|:-------------------------:|:-------------------------:|
-<img src="images/group_lessons_2.png" style="width:275"/> | <img src="images/qr_page_1.png" style="width:275"/> | <img src="images/qr_page_2.png" style="width:275"/> |
+<img src="images/group_lessons_2.png" style="width:275"/> | <img src="images/notify_page_1.png" style="width:275"/> | <img src="images/notify_page_2.png" style="width:275"/> |
 
-Group Lessons  | QR Page 2
+QR Page 1   | QR Page 2
 :-------------------------:|:-------------------------:|
-<img src="images/notify_page_1.png" style="width:275"/> | <img src="images/notify_page_2.png" style="width:275"/> |
+<img src="images/qr_page_1.png" style="width:275"/> | <img src="images/qr_page_2.png" style="width:275"/> |
 
 ## Todo
 
