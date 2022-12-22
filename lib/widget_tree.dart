@@ -50,18 +50,20 @@ class _WidgetTreeState extends State<WidgetTree> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: isOnboardingShown,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final isShown = snapshot.data!;
-            return setPageByOnboardingState(isShown);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+    return Scaffold(
+      body: FutureBuilder(
+          future: isOnboardingShown,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final isShown = snapshot.data!;
+              return setPageByOnboardingState(isShown);
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
   }
 
   Widget setPageByOnboardingState(bool isShown) {
