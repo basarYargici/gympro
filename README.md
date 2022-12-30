@@ -3,9 +3,8 @@
 This is a Flutter sample app written in Dart following *no* architecture principles.
 
 ## Todo
-The purpose of this app to showcase:
-
-- Example: Clone the X app for both iOS and Android
+The purpose of this app to showcase: 
+- ..
 
 
 ### Screenshots From The App
@@ -34,7 +33,6 @@ WebBrowser | QR Page 1   | QR Page 2
 :-------------------------:|:-------------------------:|:-------------------------:|
 <img src="images/notify_page_2.png" style="width:275"/> | <img src="images/qr_page_1.png" style="width:275"/> | <img src="images/qr_page_2.png" style="width:275"/> |
 
-## Todo
-
 ## Languages, libraries and tools used
-- Example: [Kotlin](https://kotlinlang.org/)
+- [Dart](https://dart.dev)
+- ..
